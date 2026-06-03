@@ -1,12 +1,13 @@
-import { useState } from 'react'
 import { SERVICES } from '../data.js'
 import SectionHeader from './SectionHeader.jsx'
-import { Check, ArrowRight } from './Icons.jsx'
+import { ArrowRight } from './Icons.jsx'
 import { waLink } from '../config.js'
 
 function ServiceCard({ service, delay }) {
-  const [added, setAdded] = useState(false)
   const Icon = service.icon
+
+  const message = `Hi! I want to book a physiotherapy session for ${service.title}`
+
   return (
     <div
       className="reveal group clay-card p-7 hover:-translate-y-1.5 hover:shadow-clay-lg transition-all duration-300"
@@ -16,28 +17,22 @@ function ServiceCard({ service, delay }) {
         <span className="grid place-items-center w-14 h-14 rounded-2xl bg-gradient-to-br from-primary to-secondary text-white shadow-glow group-hover:scale-105 transition-transform">
           <Icon className="w-7 h-7" />
         </span>
+
         <ArrowRight className="w-5 h-5 text-ink/20 group-hover:text-primary group-hover:translate-x-1 transition-all" />
       </div>
 
       <h3 className="mt-5 text-xl font-bold">{service.title}</h3>
       <p className="mt-2 text-ink/60 leading-relaxed">{service.desc}</p>
 
-      <button
-        onClick={() => setAdded((a) => !a)}
-        className={`mt-6 w-full btn text-sm transition-all ${
-          added
-            ? 'bg-accent/15 text-accent shadow-clay-inset'
-            : 'bg-canvas text-ink/80 shadow-clay-sm hover:shadow-clay hover:-translate-y-0.5'
-        }`}
+      {/* NEW CTA BUTTON */}
+      <a
+        href={waLink(message)}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="mt-6 w-full btn-primary text-sm inline-flex items-center justify-center gap-2"
       >
-        {added ? (
-          <>
-            <Check className="w-4 h-4" /> Added to Plan
-          </>
-        ) : (
-          '+ Add to Plan'
-        )}
-      </button>
+        Book on WhatsApp
+      </a>
     </div>
   )
 }
@@ -60,7 +55,12 @@ export default function Services() {
 
         {/* CTA repetition */}
         <div className="reveal mt-12 text-center">
-          <a href={waLink('Hi! I would like to know which physiotherapy service is right for me.')} target="_blank" rel="noopener noreferrer" className="btn-primary">
+          <a
+            href={waLink('Hi! I would like to know which physiotherapy service is right for me.')}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary"
+          >
             Not sure what you need? Ask us
           </a>
         </div>
