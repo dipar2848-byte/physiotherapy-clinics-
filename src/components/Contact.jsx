@@ -12,7 +12,28 @@ export default function Contact() {
   const [sent, setSent] = useState(false)
 
   const handleSubmit = (e) => {
-    e.preventDefault() // no backend — UI only
+    e.preventDefault()
+
+    const name = document.getElementById('name')?.value || ''
+    const phone = document.getElementById('phone')?.value || ''
+    const email = document.getElementById('email')?.value || ''
+    const service = document.getElementById('service')?.value || ''
+    const message = document.getElementById('msg')?.value || ''
+
+    const whatsappMessage = `
+🏥 New Appointment Request
+
+👤 Full Name: ${name}
+📞 Phone: ${phone}
+📧 Email: ${email}
+🩺 Service: ${service || 'Not specified'}
+
+📝 Patient Message:
+${message || 'No additional details provided'}
+    `.trim()
+
+    window.open(waLink(whatsappMessage), '_blank')
+
     setSent(true)
     setTimeout(() => setSent(false), 4000)
   }
@@ -62,7 +83,9 @@ export default function Contact() {
             <div className="clay-card p-5 space-y-3.5">
               <div className="flex items-center gap-3 text-sm">
                 <Mail className="w-5 h-5 text-primary shrink-0" />
-                <a href={`mailto:${CLINIC.email}`} className="hover:text-primary">{CLINIC.email}</a>
+                <a href={`mailto:${CLINIC.email}`} className="hover:text-primary">
+                  {CLINIC.email}
+                </a>
               </div>
               <div className="flex items-start gap-3 text-sm">
                 <MapPin className="w-5 h-5 text-primary shrink-0 mt-0.5" />
@@ -75,7 +98,7 @@ export default function Contact() {
             </div>
           </div>
 
-          {/* Contact form (UI only) */}
+          {/* Contact form */}
           <form
             onSubmit={handleSubmit}
             className="reveal lg:col-span-3 clay-card p-6 sm:p-8"
@@ -85,8 +108,10 @@ export default function Contact() {
               <Field label="Full name" id="name" placeholder="Your name" required />
               <Field label="Phone" id="phone" type="tel" placeholder="+91 90000 00000" required />
             </div>
+
             <div className="grid sm:grid-cols-2 gap-4 mt-4">
               <Field label="Email" id="email" type="email" placeholder="you@email.com" />
+
               <div>
                 <label htmlFor="service" className="block text-sm font-medium mb-1.5 text-ink/70">
                   Service
@@ -102,6 +127,7 @@ export default function Contact() {
                 </select>
               </div>
             </div>
+
             <div className="mt-4">
               <label htmlFor="msg" className="block text-sm font-medium mb-1.5 text-ink/70">
                 How can we help?
@@ -123,8 +149,17 @@ export default function Contact() {
                 'Request Appointment'
               )}
             </button>
+
             <p className="mt-3 text-center text-xs text-ink/45">
-              Prefer to talk now? <a href={waLink()} target="_blank" rel="noopener noreferrer" className="text-primary font-semibold">Message us on WhatsApp →</a>
+              Prefer to talk now?{' '}
+              <a
+                href={waLink()}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary font-semibold"
+              >
+                Message us on WhatsApp →
+              </a>
             </p>
           </form>
         </div>
@@ -139,6 +174,7 @@ function Field({ label, id, type = 'text', placeholder, required }) {
       <label htmlFor={id} className="block text-sm font-medium mb-1.5 text-ink/70">
         {label} {required && <span className="text-accent">*</span>}
       </label>
+
       <input
         id={id}
         type={type}
